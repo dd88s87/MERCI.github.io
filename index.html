@@ -39,6 +39,7 @@
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/citation-js@0.6.9/build/citation.min.js"></script>
 </head>
 <body>
 
@@ -247,8 +248,33 @@
   </div>
 </section>
 
+<section class="section" id="references"> <div class="container is-max-desktop"> <h2 class="title is-3">References</h2> <ol id="ref-list" class="references"></ol> </div> </section>
+<bibtex src="./static/bib/references.bib"></bibtex>
 
-<section class="section" id="BibTeX">
+<div class="bibtex_template">
+  <div class="reference">
+    <span class="if author">
+      <span class="author"></span>,
+    </span>
+    <span class="if year">
+      (<span class="year"></span>).
+    </span>
+    <span class="if title">
+      <b><span class="title"></span></b>.
+    </span>
+    <span class="if journal">
+      <i><span class="journal"></span></i>,
+    </span>
+    <span class="if booktitle"><i><span class="booktitle"></span></i>,</span>
+    <span class="if volume">vol. <span class="volume"></span>,</span>
+    <span class="if pages">pp. <span class="pages"></span>,</span>
+    <span class="if publisher"><span class="publisher"></span>,</span>
+    <span class="if doi">doi: <a class="doi" target="_blank"></a>,</span>
+    <span class="if url"><a class="url" target="_blank">[link]</a></span>
+  </div>
+</div>
+
+<!-- <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">References</h2>
     <p>Peter Auer, Thomas Jaksch, and Ronald Ortner. Near-optimal regret bounds for reinforcement</p>
@@ -264,7 +290,7 @@
 <p>Daixuan Cheng, Shaohan Huang, Xuekai Zhu, Bo Dai, Wayne Xin Zhao, Zhenliang Zhang, and<br/>Furu Wei. Reasoning with exploration: An entropy perspective on reinforcement learning for<br/>llms, 2025. URL https://arxiv.org/abs/2506.14758.<br/></p>
 <p>Yarin Gal and Zoubin Ghahramani. Dropout as a bayesian approximation: Representing model<br/>uncertainty in deep learning. In international conference on machine learning, pp. 1050&#8211;1059.<br/>PMLR, 2016.<br/></p>
   </div>
-</section>
+</section> -->
 
 </body>
 </html>
