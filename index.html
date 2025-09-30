@@ -120,13 +120,16 @@
         <h2 class="title is-3">Introduction</h2>
         <div class="content has-text-justified">
           <p>
-            Reinforcement learning has enabled LLMs to tackle challenging domains such as mathematics and code generation, but sparse rewards and inefficient exploration remain major bottlenecks. Existing methods like GRPO and DAPO remove the need for value functions and provide token-level variability, yet they lack temporally consistent exploration over long reasoning trajectories. Classic exploration strategies—such as entropy regularization or curiosity-driven rewards—struggle to scale to modern LLMs, either due to inefficiency, heavy computation, or reliance on heuristics.
+            Reinforcement learning (RL) has enabled LLMs to tackle challenging domains such as mathematics and code generation, but sparse rewards and inefficient exploration remain major bottlenecks. Existing methods like GRPO and DAPO remove the need for value functions and provide token-level variability, yet they lack temporally consistent exploration over long reasoning trajectories. To guide exploration in such frameworks, many prevalent techniques rely on entropy regularization to encourage local policy diversity. While effective, this approach is limited for complex, long-horizon tasks. We see an opportunity to design complementary strategies that provide more directed, temporally-consistent exploration signals particularly for those tasks, motivating our investigation into principled exploration strategies compatible with modern value-free RL.
           </p>
           <p>
-            Our key insight is that autoregressive LLM reasoning operates in a deterministic environment: each token uniquely determines the next state. This dramatically simplifies the Uncertainty Bellman Equation, reducing the intractable challenge of estimating Q-value uncertainty to the more manageable task of estimating local reward uncertainty. Building on this, we introduce MERCI—the first principled deep exploration algorithm for LLM reasoning. MERCI leverages the lightweight and theoretically grounded Flipping Coins pseudo-count method to estimate state novelty, translating it into intrinsic rewards that guide policy optimization.
+            Traditional exploration strategies—such as entropy regularization, curiosity-driven bonuses, or ensemble-based uncertainty estimates—either fail to provide temporally consistent signals, incur prohibitive computational costs, or break down at LLM scale.
+          </p>
+          <p>
+            Our work addresses this gap with a critical insight: autoregressive LLM reasoning operates in a deterministic environment: each token uniquely determines the next state. This dramatically simplifies the Uncertainty Bellman Equation, reducing the intractable challenge of estimating Q-value uncertainty to the more manageable task of estimating local reward uncertainty. Building on this, we introduce MERCI—the first principled deep exploration algorithm for LLM reasoning. MERCI leverages the lightweight and theoretically grounded <i>Flipping Coins pseudo-count</i> method to estimate state novelty, translating it into intrinsic rewards that guide policy optimization.
           </p>
         </div>
-        <h2 class="title is-3">Contributions</h2>
+        <h3 class="title is-3">Contributions</h3>
         <div class="content has-text-justified">
           <ul>
             <li>
@@ -156,7 +159,29 @@
         <div class="content has-text-justified">
           <img src="./static/images/method.png"
                 class="method-image"/>
-          <p>Method Overview: MERCI</p>
+          <p style="text-align:center">Method Overview: MERCI</p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Methodology</h2>
+        <h3 class="title is-3">The Uncertainty Bellman Equation with Known Transitions</h3>
+        <div class="content has-text-justified">
+          <p>
+            The Uncertainty Bellman Equation (UBE) provides a principled mechanism for propagating epistemic uncertainty---quantified as the variance of the posterior distribution over Q-values---through time \citep{ODonoghue2017TheUB}.  For clarity, we will use the terms "uncertainty" and "variance" interchangeably throughout this section. Our core theoretical contribution stems from a key insight: \textbf{the Markov Decision Process (MDP) underlying LLM reasoning has a known and deterministic transition function, $P$}. This property dramatically simplifies the general form of the UBE, leading to a more direct and tractable equation for uncertainty propagation.
+          </p>
+          <p>
+            Formally, we consider a <em>finite</em> horizon, finite state and action space MDP, with horizon length H &in; &Nopf;, state space &Sscr;, action space &Ascr; and rewards at time period h denoted by r<sup>h</sup> &in; &Ropf;. A policy &pi; = (&pi;<sup>1</sup>, &hellip;, &pi;<sup>H</sup>) is a sequence of functions where each &pi;<sup>h</sup> : &Sscr; &times; &Ascr; &rarr; &Ropf;₊ is a mapping from state-action pair to the probability of taking that action at that state, i.e., &pi;<sub>sa</sub><sup>h</sup> is the probability of taking action a at state s at time-step h and &sum;<sub>a</sub> &pi;<sub>sa</sub><sup>h</sup> = 1 for all s &in; &Sscr;. At each time-step h the agent receives a state s<sup>h</sup> and a reward r<sup>h</sup> and selects an action a<sup>h</sup> from the policy &pi;<sup>h</sup>, and the agent moves to the next state s<sup>h+1</sup>, which is sampled with probability P<sup>h</sup><sub>s&prime;sa</sub>. The Q-value, at time step h of a particular state under policy &pi; is the expected total return from taking that action at that state and following &pi; thereafter, i.e.,</p> <p>Q<sup>&pi;,h</sup>(s,a) = <b>E</b> [ &sum;<sub>t=h</sub><sup>H</sup> r<sup>t</sup> | s<sup>t</sup> = s, a<sup>t</sup> = a, &pi; ]
+          </p>
         </div>
       </div>
     </div>
