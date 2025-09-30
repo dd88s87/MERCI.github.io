@@ -186,6 +186,25 @@
             Formally, we consider a <em>finite</em> horizon, finite state and action space MDP, with horizon length H &in; &Nopf;, state space &Sscr;, action space &Ascr; and rewards at time period h denoted by r<sup>h</sup> &in; &Ropf;. A policy &pi; = (&pi;<sup>1</sup>, &hellip;, &pi;<sup>H</sup>) is a sequence of functions where each &pi;<sup>h</sup> : &Sscr; &times; &Ascr; &rarr; &Ropf;₊ is a mapping from state-action pair to the probability of taking that action at that state, i.e., &pi;<sub>sa</sub><sup>h</sup> is the probability of taking action a at state s at time-step h and &sum;<sub>a</sub> &pi;<sub>sa</sub><sup>h</sup> = 1 for all s &in; &Sscr;. At each time-step h the agent receives a state s<sup>h</sup> and a reward r<sup>h</sup> and selects an action a<sup>h</sup> from the policy &pi;<sup>h</sup>, and the agent moves to the next state s<sup>h+1</sup>, which is sampled with probability P<sup>h</sup><sub>s&prime;sa</sub>. The Q-value, at time step h of a particular state under policy &pi; is the expected total return from taking that action at that state and following &pi; thereafter, i.e., Q<sup>&pi;,h</sup>(s,a) = <b>E</b> [ &sum;<sub>t=h</sub><sup>H</sup> r<sup>t</sup> | s<sup>t</sup> = s, a<sup>t</sup> = a, &pi; ].
           </p>
         </div>
+
+        <h4 class="title is-4">Estimate Variance of Reware via CFN</h4>
+        <div class="content has-text-justified">
+          <p>
+            Standard policy optimization driven by sparse, outcome-based rewards (e.g., GRPO) can lead to premature convergence on suboptimal solutions. MERCI addresses it via a dedicated mechanism for principled exploration. The framework is illustrated in Figure 1.
+          </p>
+          <p>
+            Our framework employs two distinct Large Language Models operating in parallel:
+            <ul>
+              <li>
+                <b>The Policy Network ( &pi;<sub>θ</sub>):</b> This is the agent that generates reasoning trajectories. It is initialized from a supervised fine-tuned (SFT) checkpoint, &pi;<sub>0</sub>, and its parameters θ are exclusively updated by the policy optimization algorithm (e.g., GRPO).
+              </li>
+              <li>
+                <b>The CFN Network:</b> This network's sole purpose is to estimate epistemic uncertainty. It is a separate instance of the LLM, also initialized from the same checkpoint &pi;<sub>0</sub>. A lightweight MLP, which we call the CFN head <i>f</i><sub>&phi;</sub>, is attached to its final hidden layer. CFN network is updated together via a supervised regression objective.
+              </li>
+            </ul>
+          </p>
+        </div>
+
       </div>
     </div>
     <!--/ Abstract. -->
