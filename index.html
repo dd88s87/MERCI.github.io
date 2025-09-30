@@ -39,7 +39,7 @@
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/citation-js@0.6.9/build/citation.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bibtex-js@2.0.0/dist/bibtex.min.js"></script>
 </head>
 <body>
 
@@ -59,7 +59,7 @@
               Zhijian Zhou</a><sup>1,2</sup>,
             </span>
             <span class="author-block">
-              Long Li</a><sup>1,2</sup>,
+              Long Li</a><sup>1</sup>,
             </span>
             <span class="author-block">
               Yulei Qin</a><sup>3</sup>,
@@ -71,13 +71,13 @@
               Xing Sun</a><sup>3</sup>
             </span>
             <span class="author-block">
-              Xiaoyu Tan</a><sup>3&dagger</sup>
+              Xiaoyu Tan</a><sup>3*</sup>
             </span>
             <span class="author-block">
-              Chao Qu</a><sup>1&dagger</sup>
+              Chao Qu</a><sup>1*</sup>
             </span>
             <span class="author-block">
-              Yuan Qi</a><sup>1&dagger</sup>
+              Yuan Qi</a><sup>1*</sup>
             </span>
           </div>
 
@@ -105,6 +105,22 @@
             Reinforcement Learning (RL) has become a compelling way to strengthen the multi step reasoning ability of Large Language Models (LLMs). However, prevalent RL paradigms still lean on sparse outcome-based rewards and limited exploration, which often drives LLMs toward repetitive and suboptimal reasoning patterns. In this paper, we study the central question of how to design exploration for LLM reasoning and introduce MERCI (Motivating Exploration in LLM Reasoning with Count-based Intrinsic Rewards), a novel RL algorithm that augments policy optimization with a principled intrinsic reward. Building on the idea of count-based exploration, MERCI leverages a lightweight Coin Flipping Network (CFN) to estimate the pseudo count and further epistemic uncertainty over reasoning trajectories, and converts them into an intrinsic reward that values novelty while preserving the learning signal from task rewards. We integrate MERCI into some advanced RL frameworks like Group Relative Policy Optimization (GRPO). Experiments on complex reasoning benchmarks demonstrate that MERCI encourages richer and more varied chains of thought, significantly improves performance over strong baselines, and helps the policy escape local routines to discover better solutions. It indicates that our targeted intrinsic motivation can make exploration reliable for language model reasoning.
           </p>
         </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <h2 class="title is-3">Introduction</h2>
+      <div class="content has-text-justified">
+        <p>
+          Reinforcement Learning (RL) has become a compelling way to strengthen the multi step reasoning ability of Large Language Models (LLMs). However, prevalent RL paradigms still lean on sparse outcome-based rewards and limited exploration, which often drives LLMs toward repetitive and suboptimal reasoning patterns. In this paper, we study the central question of how to design exploration for LLM reasoning and introduce MERCI (Motivating Exploration in LLM Reasoning with Count-based Intrinsic Rewards), a novel RL algorithm that augments policy optimization with a principled intrinsic reward. Building on the idea of count-based exploration, MERCI leverages a lightweight Coin Flipping Network (CFN) to estimate the pseudo count and further epistemic uncertainty over reasoning trajectories, and converts them into an intrinsic reward that values novelty while preserving the learning signal from task rewards. We integrate MERCI into some advanced RL frameworks like Group Relative Policy Optimization (GRPO). Experiments on complex reasoning benchmarks demonstrate that MERCI encourages richer and more varied chains of thought, significantly improves performance over strong baselines, and helps the policy escape local routines to discover better solutions. It indicates that our targeted intrinsic motivation can make exploration reliable for language model reasoning.
+        </p>
       </div>
     </div>
     <!--/ Abstract. -->
@@ -273,24 +289,6 @@
     <span class="if url"><a class="url" target="_blank">[link]</a></span>
   </div>
 </div>
-
-<!-- <section class="section" id="BibTeX">
-  <div class="container is-max-desktop content">
-    <h2 class="title">References</h2>
-    <p>Peter Auer, Thomas Jaksch, and Ronald Ortner. Near-optimal regret bounds for reinforcement</p>
-    <p>learning. Advances in neural information processing systems, 21, 2008.<br/>Mohammad Gheshlaghi Azar, Ian Osband, and Re&#769;mi Munos. Minimax regret bounds for reinforce-<br/></p>
-<p>ment learning. In International conference on machine learning, pp. 263&#8211;272. PMLR, 2017.<br/>Chenjia Bai, Lingxiao Wang, Lei Han, Jianye Hao, Animesh Garg, Peng Liu, and Zhaoran Wang.<br/></p>
-<p>Principled exploration via optimistic bootstrapping and backward induction. In Marina Meila<br/>and Tong Zhang (eds.), Proceedings of the 38th International Conference on Machine Learning,<br/>volume 139 of Proceedings of Machine Learning Research, pp. 577&#8211;587. PMLR, 18&#8211;24 Jul 2021.<br/>URL https://proceedings.mlr.press/v139/bai21d.html.<br/></p>
-<p>Chenjia Bai, Yang Zhan, Shuang Qiu, Qiaosheng Zhang, Kang Xu, and Xuelong Li. Online prefer-<br/>ence alignment for language models via count-based exploration. In International Conference on<br/>Learning Representations, 2025.<br/></p>
-<p>Marc Bellemare, Sriram Srinivasan, Georg Ostrovski, Tom Schaul, David Saxton, and Remi Munos.<br/>Unifying count-based exploration and intrinsic motivation. Advances in neural information pro-<br/>cessing systems, 29, 2016.<br/></p>
-<p>Ronen I Brafman and Moshe Tennenholtz. R-max-a general polynomial time algorithm for near-<br/>optimal reinforcement learning. Journal of Machine Learning Research, 3(Oct):213&#8211;231, 2002.<br/></p>
-<p>Yuri Burda, Harrison Edwards, Amos Storkey, and Oleg Klimov. Exploration by random network<br/>distillation. In International Conference on Learning Representations, 2019. URL https:<br/>//openreview.net/forum?id=H1lJJnR5Ym.<br/></p>
-<p>Shicong Cen, Jincheng Mei, Katayoon Goshvadi, Hanjun Dai, Tong Yang, Sherry Yang, Dale Schu-<br/>urmans, Yuejie Chi, and Bo Dai. Value-incentivized preference optimization: A unified approach<br/>to online and offline rlhf. In The Thirteenth International Conference on Learning Representa-<br/>tions.<br/></p>
-<p>Mingyu Chen, Yiding Chen, Wen Sun, and Xuezhou Zhang. Avoiding exp(Rmax) scaling in<br/>rlhf through preference-based exploration, 2025. URL https://arxiv.org/abs/2502.<br/>00666.<br/></p>
-<p>Daixuan Cheng, Shaohan Huang, Xuekai Zhu, Bo Dai, Wayne Xin Zhao, Zhenliang Zhang, and<br/>Furu Wei. Reasoning with exploration: An entropy perspective on reinforcement learning for<br/>llms, 2025. URL https://arxiv.org/abs/2506.14758.<br/></p>
-<p>Yarin Gal and Zoubin Ghahramani. Dropout as a bayesian approximation: Representing model<br/>uncertainty in deep learning. In international conference on machine learning, pp. 1050&#8211;1059.<br/>PMLR, 2016.<br/></p>
-  </div>
-</section> -->
 
 </body>
 </html>
