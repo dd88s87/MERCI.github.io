@@ -261,14 +261,14 @@
             \]
           </p>
           <p>
-            To prevent the bonus from overpowering outcome-based rewards, we scale the standardized intrinsic bonus term by an exploration coefficient \(\gamma]), and add it to the base advantage \(\hat{A}_\text{old}^i\). For trajectories whose base advantage is negative, we cap the augmented advantage with a clipping factor \(\alpha \in (0,1)\) to prevent the intrinsic term from overwhelming the outcome signal:
+            To prevent the bonus from overpowering outcome-based rewards, we scale the standardized intrinsic bonus term by an exploration coefficient \(\gamma]\), and add it to the base advantage \(\hat{A}_\text{old}^i\). For trajectories whose base advantage is negative, we cap the augmented advantage with a clipping factor \(\alpha \in (0,1)\) to prevent the intrinsic term from overwhelming the outcome signal:
           </p>
           <p>
             \[
             \hat{A}_{\text{new}}^i = 
             \begin{cases} 
             \hat{A}_{\text{old}}^i + \gamma \hat{A}_{\text{exploration}}^i, & \text{if } \hat{A}_{\text{old}}^i \geq 0; \\
-            \min\left( \hat{A}_{\text{old}}^i + \gamma \hat{A}_{\text{exploration}}^i, \alpha \hat{A}_{\text{old}}^i \right), & \text{if } \hat{A}_{\text{old}}^i < 0. 
+            \min\left( \hat{A}_{\text{old}}^i + \gamma \hat{A}_{\text{exploration}}^i, \alpha \hat{A}_{\text{old}}^i \right), & \text{if } \hat{A}_{\text{old}}^i &lt; 0. 
             \]
           </p>
         </div>
