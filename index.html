@@ -120,8 +120,25 @@
         <h2 class="title is-3">Introduction</h2>
         <div class="content has-text-justified">
           <p>
-            Reinforcement learning (RL) \citep{Sutton1998} has become a cornerstone of advancing the multi-step reasoning capabilities of Large Language Models (LLMs), enabling them to tackle complex domains like competitive mathematics and code generation \citep{jaech2024openai,guo2025deepseek,aime}. However, these tasks feature sparse rewards, with feedback available only after completing a lengthy reasoning chain, making exploration a critical challenge. Recent breakthroughs, such as Group Relative Policy Optimization (GRPO) \citep{deepseek-math} and Dynamic sAmpling Policy Optimization (DAPO) \citep{yu2025dapo}, have streamlined the training process by eliminating the need for an explicit value function. This yields local variability at the token level, but it does not produce exploration that is coherent across the length of a reasoning trajectory. To guide exploration in such frameworks, many prevalent techniques rely on entropy regularization to encourage local policy diversity. While effective, this approach is limited for complex, long-horizon tasks. We see an opportunity to design complementary strategies that provide more directed, temporally-consistent exploration signals particularly for those tasks, motivating our investigation into principled exploration strategies compatible with modern value-free RL.
+            Reinforcement learning has enabled LLMs to tackle challenging domains such as mathematics and code generation, but sparse rewards and inefficient exploration remain major bottlenecks. Existing methods like GRPO and DAPO remove the need for value functions and provide token-level variability, yet they lack temporally consistent exploration over long reasoning trajectories. Classic exploration strategies—such as entropy regularization or curiosity-driven rewards—struggle to scale to modern LLMs, either due to inefficiency, heavy computation, or reliance on heuristics.
           </p>
+          <p>
+            Our key insight is that autoregressive LLM reasoning operates in a deterministic environment: each token uniquely determines the next state. This dramatically simplifies the Uncertainty Bellman Equation, reducing the intractable challenge of estimating Q-value uncertainty to the more manageable task of estimating local reward uncertainty. Building on this, we introduce MERCI—the first principled deep exploration algorithm for LLM reasoning. MERCI leverages the lightweight and theoretically grounded Flipping Coins pseudo-count method to estimate state novelty, translating it into intrinsic rewards that guide policy optimization.
+          </p>
+        </div>
+        <h2 class="title is-3">Contributions</h2>
+        <div class="content has-text-justified">
+          <ul>
+            <li>
+              <b>A Novel Theoretical Framework for LLM Exploration.</b> We establish a new framework based on a key insight: the LLM's known and deterministic transition dynamics simplify the Uncertainty Bellman Equation. This renders principled, uncertainty-driven exploration tractable at scale by reducing the intractable problem of Q-value uncertainty to a manageable estimation of local reward uncertainty.
+            </li>
+            <li>
+              <b>A Practical and Scalable Exploration Algorithm.</b> We propose <b>MERCI</b>, a novel algorithm that operationalizes our theoretical framework. MERCI employs a highly scalable counting method to translate state novelty into a potent intrinsic reward signal, designed for seamless integration with modern, value-free policy optimization methods like GRPO.
+            </li>
+            <li>
+              <b>State-of-the-Art Performance on Complex Reasoning.</b> Our extensive empirical evidence on challenging reasoning benchmarks, including MATH and SQL generation, demonstrate that MERCI beats strong baselines. Its directed exploration mechanism mitigates premature convergence and leads to the discovery of more robust and accurate solutions.
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -132,44 +149,24 @@
 
 <section class="section">
   <div class="container is-max-desktop">
-
-    <div class="columns is-centered">
-
-      <!-- Visual Effects. -->
-      <div class="column">
-        <div class="content">
-          <h2 class="title is-3">Visual Effects</h2>
-          <p>
-            Using <i>nerfies</i> you can create fun visual effects. This Dolly zoom effect
-            would be impossible without nerfies since it would require going through a wall.
-          </p>
-          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/dollyzoom-stacked.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-      </div>
-      <!--/ Visual Effects. -->
-
-      <!-- Matting. -->
-      <div class="column">
-        <h2 class="title is-3">Matting</h2>
-        <div class="columns is-centered">
-          <div class="column content">
-            <p>
-              As a byproduct of our method, we can also solve the matting problem by ignoring
-              samples that fall outside of a bounding box during rendering.
-            </p>
-            <video id="matting-video" controls playsinline height="100%">
-              <source src="./static/videos/matting.mp4"
-                      type="video/mp4">
-            </video>
-          </div>
-
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-seven-eighths">
+        <h2 class="title is-3">Method Overview</h2>
+        <div class="content has-text-justified">
+          <img src="./static/images/method.jpg"
+                class="method-image"/>
+          <p>Method Overview: MERCI</p>
         </div>
       </div>
     </div>
-    <!--/ Matting. -->
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
 
     <!-- Animation. -->
     <div class="columns is-centered">
@@ -209,27 +206,6 @@
         </div>
         <br/>
         <!--/ Interpolating. -->
-
-        <!-- Re-rendering. -->
-        <h3 class="title is-4">Re-rendering the input video</h3>
-        <div class="content has-text-justified">
-          <p>
-            Using <span class="dnerf">Nerfies</span>, you can re-render a video from a novel
-            viewpoint such as a stabilized camera by playing back the training deformations.
-          </p>
-        </div>
-        <div class="content has-text-centered">
-          <video id="replay-video"
-                 controls
-                 muted
-                 preload
-                 playsinline
-                 width="75%">
-            <source src="./static/videos/replay.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <!--/ Re-rendering. -->
 
       </div>
     </div>
