@@ -230,17 +230,48 @@
             <b>MERCI</b> adheres strictly to the former, theoretically-grounded calculation, ensuring the exploration signal accurately reflects the true cumulative epistemic uncertainty.
           </p>
           <p></p>
+          <p><b>Budget-Aware Exploration Bonus Control</b></p>
+          <p>The non-sparse exploration bonus introduces its own considerable instabilities when becoming indiscriminately dense, which would invite LLMs seeking through aimless exploration. So, we enforce budgeted exploration, which reduces gradient variance and in turn stabilizes optimization and lowers noise in final answers. Concretely, three filtering stages are applied, shaping where and how the bonus can act. (1) <b>Percentile filtering</b> retains only a fixed fraction of the strongest signals within each sample, which tracks the gradual decline in bonus magnitude over training without manual retuning. (2) <b>Spatial coherence filtering</b> keeps tokens that belong to contiguous regions of elevated bonus and discards isolated spikes even when numerically large, thereby yielding steadier updates. (3) <b>Noise-suppression filtering</b> removes incentives attached to content that is unrelated to solving the problem, such as meaningless repetition, gratuitous code blocks, or rare characters generated solely to chase the bonus. Together these stages allocate a controlled exploration budget that preserves useful exploration while safeguarding the primary reward signal. The overall pipeline of bonus control is illustrated in Figure 2.</p>
           <div class="content has-text-justified">
             <img src="./static/images/filter.png"
                   class="filter-image"/>
             <p style="text-align:center"><strong>Figure 2:</strong> The entire pipeline of bonus filtering. Step 1: We rank all tokens within a response by their associated bonus values and retain only those falling within a predefined top percentile (e.g., the top 50% in this figure). Step 2: We only preserve clusters of adjacent tokens that consistently exhibit elevated bonuses (e.g., 3 consecutive tokens in this figure). Step 3: For example, in a math reasoning task without external tools, any Python code potentially generated during LLM rollouts is semantically irrelevant and noisy, so we exclude them from the overall bonus calculation.</p>
           </div>
-          <p><b>Budget-Aware Exploration Bonus Control</b></p>
-          <p>The non-sparse exploration bonus introduces its own considerable instabilities when becoming indiscriminately dense, which would invite LLMs seeking through aimless exploration. So, we enforce budgeted exploration, which reduces gradient variance and in turn stabilizes optimization and lowers noise in final answers. Concretely, three filtering stages are applied, shaping where and how the bonus can act. (1) <b>Percentile filtering</b> retains only a fixed fraction of the strongest signals within each sample, which tracks the gradual decline in bonus magnitude over training without manual retuning. (2) <b>Spatial coherence filtering</b> keeps tokens that belong to contiguous regions of elevated bonus and discards isolated spikes even when numerically large, thereby yielding steadier updates. (3) <b>Noise-suppression filtering</b> removes incentives attached to content that is unrelated to solving the problem, such as meaningless repetition, gratuitous code blocks, or rare characters generated solely to chase the bonus. Together these stages allocate a controlled exploration budget that preserves useful exploration while safeguarding the primary reward signal. The overall pipeline of bonus control is illustrated in Figure 2.</p>
+          <p></p>
+          <p><b>Advantage Normalization and Bonus Integration</b></p>
+          <p>After bonus filtering, the normalized bonus \( \mathcal{B} \) is computed by first averaging the squared CFN outputs across all retained tokens and then applying square-root compression:</p>
+          <p>
+            \[
+            \mathcal{B}=\sqrt{ \frac{1}{l}\sum_{i \in \mathbb{I}}\Big( \frac{1}{d}\|f_\phi(s_{hidden}^i)\|^2 \Big)},
+            \]
+          </p>
+          <p>where \( l \) is the length of a trajectory, \( d \) is the dimension of CFN's outputs, and \( \mathbb{I} \) is the set of retained tokens' indices.</p>
+          <p>
+            To ensure comparability across trajectories sampled under the same prompt, we standardize trajectory-level bonuses within each group of size \(G\) and truncate negative values, preserving only positive exploratory incentives:
+          </p>
+          <p>
+            \[
+            \hat{A}_{\text{exploration}}^{i} 
+            = \max \left( 0,\,
+              \frac{\mathcal{B}_{i} - \mu}{\sigma} \right),
+            \text{where \ }
+            \mu=\frac{1}{G}\sum_{j=1}^G \mathcal{B}_j,
+            \ 
+            \sigma=\sqrt{\frac{1}{G}\sum_{j=1}^G (\mathcal{B}_j-\mu)^2}.
+            \]
+          </p>
+          <p>
+            To prevent the bonus from overpowering outcome-based rewards, we scale the standardized intrinsic bonus term by an exploration coefficient \(\gamma]), and add it to the base advantage \(\hat{A}_\text{old}^i\). For trajectories whose base advantage is negative, we cap the augmented advantage with a clipping factor \(\alpha \in (0,1)\) to prevent the intrinsic term from overwhelming the outcome signal:
+          </p>
+          <p>
+            \[
+            \hat{A}_{\text{new}}^i = 
+            \begin{cases} 
+            \hat{A}_{\text{old}}^i + \gamma \hat{A}_{\text{exploration}}^i, & \text{if } \hat{A}_{\text{old}}^i \geq 0; \\
+            \min\left( \hat{A}_{\text{old}}^i + \gamma \hat{A}_{\text{exploration}}^i, \alpha \hat{A}_{\text{old}}^i \right), & \text{if } \hat{A}_{\text{old}}^i < 0. 
+            \]
+          </p>
         </div>
-
-        
-
       </div>
     </div>
     <!--/ Abstract. -->
