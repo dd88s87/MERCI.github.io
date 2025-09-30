@@ -211,6 +211,36 @@
           </p>
         </div>
 
+        <h4 class="title is-4">Advantage Estimation</h4>
+        <div class="content has-text-justified">
+          <p><b>Calculating the Intrinsic Reward from Cumulative Uncertainty</b></p>
+          <p>
+            A critical detail of our method is the precise calculation of the exploration bonus. The correct approach to determine the uncertainty of a trajectory's value is to first at each step (we use the monte carlo estimation here), and only then take the square root of the total sum. This resulting value represents the standard deviation of the cumulative Q-value posterior and serves as our intrinsic reward.
+          </p>
+          <p>
+            This stands in stark contrast to a common but theoretically flawed heuristic in many RL exploration algorithms. Those methods often compute a per-step bonus proportional to the local <i>standard deviation</i> and apply a standard RL algorithm to the modified, ``bonused" rewards. However, this latter approach---which is equivalent to summing standard deviations---leads to a significant overestimation of uncertainty over long horizons. This miscalculation can cause the agent to become overly optimistic, leading to prolonged and inefficient exploration of paths that are long but not necessarily promising. To illustrate the difference, consider a trajectory of horizon <i>H</i> where the local reward variance at each step is \( \sigma^2=1 \). </p>
+          </p>  
+          <p> 
+            <b>Correct Bonus (MERCI):</b> The cumulative variance is \( \sum_{h=1}^H 1 = H \). The bonus, or standard deviation, is correctly calculated as \( \sqrt{H} \). 
+          </p>
+          <p>
+            <b>Heuristic Bonus:</b> The per-step bonus is \( \sqrt{1}=1 \). Summing these bonuses results in an overestimated total bonus of \( \sum_{h=1}^H 1 = H \).
+          </p>
+          <p>
+            <b>MERCI</b> adheres strictly to the former, theoretically-grounded calculation, ensuring the exploration signal accurately reflects the true cumulative epistemic uncertainty.
+          </p>
+          <p></p>
+          <div class="content has-text-justified">
+            <img src="./static/images/filter.png"
+                  class="filter-image"/>
+            <p style="text-align:center"><strong>Figure 2:</strong> The entire pipeline of bonus filtering. Step 1: We rank all tokens within a response by their associated bonus values and retain only those falling within a predefined top percentile (e.g., the top 50% in this figure). Step 2: We only preserve clusters of adjacent tokens that consistently exhibit elevated bonuses (e.g., 3 consecutive tokens in this figure). Step 3: For example, in a math reasoning task without external tools, any Python code potentially generated during LLM rollouts is semantically irrelevant and noisy, so we exclude them from the overall bonus calculation.</p>
+          </div>
+          <p><b>Budget-Aware Exploration Bonus Control</b></p>
+          <p>The non-sparse exploration bonus introduces its own considerable instabilities when becoming indiscriminately dense, which would invite LLMs seeking through aimless exploration. So, we enforce budgeted exploration, which reduces gradient variance and in turn stabilizes optimization and lowers noise in final answers. Concretely, three filtering stages are applied, shaping where and how the bonus can act. (1) <b>Percentile filtering</b> retains only a fixed fraction of the strongest signals within each sample, which tracks the gradual decline in bonus magnitude over training without manual retuning. (2) <b>Spatial coherence filtering</b> keeps tokens that belong to contiguous regions of elevated bonus and discards isolated spikes even when numerically large, thereby yielding steadier updates. (3) <b>Noise-suppression filtering</b> removes incentives attached to content that is unrelated to solving the problem, such as meaningless repetition, gratuitous code blocks, or rare characters generated solely to chase the bonus. Together these stages allocate a controlled exploration budget that preserves useful exploration while safeguarding the primary reward signal. The overall pipeline of bonus control is illustrated in Figure 2.</p>
+        </div>
+
+        
+
       </div>
     </div>
     <!--/ Abstract. -->
