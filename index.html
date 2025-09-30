@@ -214,5 +214,32 @@
   </div>
 </section>
 
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-seven-eighths">
+        <h2 class="title is-4">Experiments</h2>
+        <h3 class="title is-5">Experiment Setup</h3>
+        <ul>
+          <li>
+            <b>Mathematical Reasoning:</b> Our backbone model is Qwen2.5-Math-7B. Our training dataset is sourced from DAPO-17K, and we evaluate models on a diverse set of challenging mathematical reasoning benchmarks, including AIME2024/2025, MATH500, OlympiadBench, College Math, and Minerva.
+          </li>
+          <li>
+            <b>SQL generation:</b> Our experiments are conducted on Llama-3.1-8B-Instruct. We trained on the Bird training set and evaluated performance on the Bird and Spider test sets.
+          </li>
+        </ul>
+        <h3 class="title is-5">Main Results</h3>
+        <h4 class="title is-5">Coin Flipping Network</h4>
+        <img src="./static/images/cfn.png"
+                class="cfn-image"/>
+          <p style="text-align:center"><strong>Figure 2:</strong> Some examples of token-level estimated epistemic uncertainty within a response. Red regions indicate relatively higher uncertainty estimates assigned by the CFN to the corresponding token positions, while blue regions indicate relatively lower estimates. We can observe that token sequences assigned <i>higher uncertainty</i> by the CFN predominantly correspond to <i>novel reasoning paths</i>, Python code along with its outputs, or specialized mathematical terminologies. This observation aligns with our hypothesis that more novel token positions tend to induce higher epistemic uncertainty and are therefore assigned higher values by our CFN. </p>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
 </body>
 </html>
