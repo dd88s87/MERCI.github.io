@@ -240,10 +240,10 @@
           U^h(s, a) \leq \mathbb{V}_t[\hat{r}^h(s)] + \sum_{s',a'}\pi_{s',a'}^h P^h_{s'sa} U^{h+1}(s',a'),
           \]
         </p>
-
+<!-- 
         <p>The UBE propagates Q-value uncertainty, \(U^h(s,a)\), defined as the posterior variance \( \mathbb{V}_t[\hat{Q}^{\pi, h}(s, a)] \), according to the following recursive inequality:</p>
         
-        <p style="text-align: center;">\[ U^h(s, a) \leq \mathbb{V}_t[\hat{r}^h(s)] + \mathbb{E}_{\pi}[U^{h+1}(s', a')] \]</p>
+        <p style="text-align: center;">\[ U^h(s, a) \leq \mathbb{V}_t[\hat{r}^h(s)] + \mathbb{E}_{\pi}[U^{h+1}(s', a')] \]</p> -->
         
         <p>where \( \mathbb{V}_t[\hat{r}^h(s)] \) is the immediate reward uncertainty, and the expectation is taken over the subsequent action \( a' \) dictated by the policy \(\pi\). This result reframes the complex task of estimating Q-value variance into the more tractable problem of estimating local reward uncertainty. Subsequently, \(U^h(s,a)\) is utilized to construct an <b>exploration bonus</b> (e.g., \(Q^{\pi,h}(s,a) + \alpha \sqrt{U^h(s,a)}\)) inspired by Upper Confidence Bound (UCB) principles, providing a theoretically grounded mechanism for balancing exploration and exploitation. Recognizing the difficulty of state-visitation counting in high-dimensional language state spaces, the method requires adopting a scalable pseudo-count mechanism to effectively estimate the local reward uncertainty \(\mathbb{V}_t[\hat{r}^h(s)]\).</p>
         </div>
