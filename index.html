@@ -180,25 +180,27 @@
     <div class="columns is-centered has-text-centered">
       <div class="column is-seven-eighths">
         <h2 class="title is-3">Coin Flipping Network</h2>
-        <p>CFN is a computationally efficient method of count-based exploration, which estimates a state's visitation count by solving a simple regression problem. The core idea is that a state's visitation count can be estimated by leveraging the statistical properties of the Rademacher distribution (i.e., random coin flips). The method works by setting up a supervised learning problem where a neural network \( f_\phi \), i.e., the CFN, is trained to predict the average of random coin-flip vectors associated with each state it encounters. </p>
-        <p>For every visit to a state \(s_i\), a new random vector \(y_i\) (i.e., the <i>coin flips</i> is sampled from \(\{-1, 1\}^d\). The CFN \(f_\phi\) is learned by solving \(\underset{\phi}{\arg\min} \mathbb{E}_{(s_i, y_i) \sim \mathcal{D}_{cfn}} [\mathcal{L}(s_i, y_i)]\), where \(\mathcal{L}\) is the mean-square error loss function and \(\mathcal{D}_{cfn}\) is a dataset of state-label pairs. Considering the fair coin-flip distribution \(\mathcal{C}\) over outcomes \(\{-1, 1\}\), we can flip this coin \(n\) times and average the results into \(z_n\).</p>
-        <p>Specifically, the second moment of the sample mean \(z_n\) is related to the inverse count: \(\mathcal{M}_2(z_n) = \mathbb{E}[z_n^2] = \sum_i Pr(z_n = i) * i^2 = \frac{1}{n}\). \(\mathbb{E}[z_n^2]\) is the variance of the sample mean of the coin-flip distribution. Furthermore, by flipping <i>d</i> coins each time, the variance of \(z_n^2\) can be reduced by a factor of \(\frac{1}{d}\), which implies a reliable way for estimating the inverse count. To this end, we generate a <i>d</i>-dimensional random vector \(c_i \sim \{-1, 1\}^d\) as a label \(y_i\) for state \(s_i\). The learning objective is described as:</p>
-        <p>
-          \[
-          f_\phi^*(s) = \underset{\phi}{\arg\min}\ \mathbb{E}_{(s_i, y_i) \sim \mathcal{D}_{cfn}} [\mathcal{L}(s_i, y_i)] = \underset{\phi}{\arg\min} \sum_{i=1}^{|\mathcal{D}_{\mathrm{cfn}}|} \| \mathbf{c}_i - f_\phi(s_i) \|^2.
-          \]
-        </p>
-        <p>In the dataset \( \mathcal{D}_{cfn} \), each occurrence of the same state will be paired with a different random vector. </p>
-        <p>\( f_\phi^* \) cannot learn a perfect mapping from states to labels since there are more than one (i.e., <i>m</i>) instances of the same state \(s_i\). Thus, it instead minimizes \(\mathcal{L}\) by outputting the mean random vector for all instances of a given state: \(f_\phi^*(s) = \frac{1}{n} \sum_{i=1}^n\mathbf{c}_i\). The pseudo-count can be estimated by:</p>
-        <p>
-          \[
-          \frac{1}{d} \| f_{\phi}(s) \|^2 
-          = \frac{1}{d} \sum_{j=1}^d \mathbb{E}\left[ \left( \sum_{i=1}^n \frac{c_{ij}}{n} \right)^2 \right] 
-          = \frac{1}{d} \sum_{j=1}^d \mathbb{E}\left[ z_n^2 \right] 
-          = \frac{1}{n}.
-          \]
-        </p>
-        <p>By training \( f_\phi \) on the objective, we can map states to approximate the count by: \(\frac{1}{d}\|f_\phi(s)\|^2\approx \frac{1}{\mathcal{N}(s)}\), where \(\mathcal{N}(s)\) denote the counts of state <i>s</i>.</p>
+        <div class="content has-text-justified"></div>
+          <p>CFN is a computationally efficient method of count-based exploration, which estimates a state's visitation count by solving a simple regression problem. The core idea is that a state's visitation count can be estimated by leveraging the statistical properties of the Rademacher distribution (i.e., random coin flips). The method works by setting up a supervised learning problem where a neural network \( f_\phi \), i.e., the CFN, is trained to predict the average of random coin-flip vectors associated with each state it encounters. </p>
+          <p>For every visit to a state \(s_i\), a new random vector \(y_i\) (i.e., the <i>coin flips</i> is sampled from \(\{-1, 1\}^d\). The CFN \(f_\phi\) is learned by solving \(\underset{\phi}{\arg\min} \mathbb{E}_{(s_i, y_i) \sim \mathcal{D}_{cfn}} [\mathcal{L}(s_i, y_i)]\), where \(\mathcal{L}\) is the mean-square error loss function and \(\mathcal{D}_{cfn}\) is a dataset of state-label pairs. Considering the fair coin-flip distribution \(\mathcal{C}\) over outcomes \(\{-1, 1\}\), we can flip this coin \(n\) times and average the results into \(z_n\).</p>
+          <p>Specifically, the second moment of the sample mean \(z_n\) is related to the inverse count: \(\mathcal{M}_2(z_n) = \mathbb{E}[z_n^2] = \sum_i Pr(z_n = i) * i^2 = \frac{1}{n}\). \(\mathbb{E}[z_n^2]\) is the variance of the sample mean of the coin-flip distribution. Furthermore, by flipping <i>d</i> coins each time, the variance of \(z_n^2\) can be reduced by a factor of \(\frac{1}{d}\), which implies a reliable way for estimating the inverse count. To this end, we generate a <i>d</i>-dimensional random vector \(c_i \sim \{-1, 1\}^d\) as a label \(y_i\) for state \(s_i\). The learning objective is described as:</p>
+          <p>
+            \[
+            f_\phi^*(s) = \underset{\phi}{\arg\min}\ \mathbb{E}_{(s_i, y_i) \sim \mathcal{D}_{cfn}} [\mathcal{L}(s_i, y_i)] = \underset{\phi}{\arg\min} \sum_{i=1}^{|\mathcal{D}_{\mathrm{cfn}}|} \| \mathbf{c}_i - f_\phi(s_i) \|^2.
+            \]
+          </p>
+          <p>In the dataset \( \mathcal{D}_{cfn} \), each occurrence of the same state will be paired with a different random vector. </p>
+          <p>\( f_\phi^* \) cannot learn a perfect mapping from states to labels since there are more than one (i.e., <i>m</i>) instances of the same state \(s_i\). Thus, it instead minimizes \(\mathcal{L}\) by outputting the mean random vector for all instances of a given state: \(f_\phi^*(s) = \frac{1}{n} \sum_{i=1}^n\mathbf{c}_i\). The pseudo-count can be estimated by:</p>
+          <p>
+            \[
+            \frac{1}{d} \| f_{\phi}(s) \|^2 
+            = \frac{1}{d} \sum_{j=1}^d \mathbb{E}\left[ \left( \sum_{i=1}^n \frac{c_{ij}}{n} \right)^2 \right] 
+            = \frac{1}{d} \sum_{j=1}^d \mathbb{E}\left[ z_n^2 \right] 
+            = \frac{1}{n}.
+            \]
+          </p>
+          <p>By training \( f_\phi \) on the objective, we can map states to approximate the count by: \(\frac{1}{d}\|f_\phi(s)\|^2\approx \frac{1}{\mathcal{N}(s)}\), where \(\mathcal{N}(s)\) denote the counts of state <i>s</i>.</p>
+        </div>
       </div>
     </div>
   </div>
