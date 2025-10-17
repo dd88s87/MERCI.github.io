@@ -322,7 +322,11 @@
           </p>
           <p>
             \[
-            \hat{A}_{\text{new}}^i = \text{clip} \left( \hat{A}_{\text{old}}^i + \gamma \hat{A}_{\text{exploration}}^i, \alpha \hat{A}_{\text{old}}^i, (1+\alpha) \hat{A}_{\text{old}}^i \right)
+            \hat{A}_{\text{new}}^i = 
+            \begin{cases} 
+            \min \left( \hat{A}_{\text{old}}^i + \gamma \hat{A}_{\text{exploration}}^i, (1+\alpha) \hat{A}_{\text{old}}^i \right), & \text{if } \hat{A}_{\text{old}}^i \geq 0; \\
+            \min\left( \hat{A}_{\text{old}}^i + \gamma \hat{A}_{\text{exploration}}^i, (1-\alpha) \hat{A}_{\text{old}}^i \right), & \text{if } \hat{A}_{\text{old}}^i < 0. 
+            \end{cases}
             \]
           </p>
         </div>
