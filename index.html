@@ -310,8 +310,9 @@
           <p>
             \[
             \hat{A}_{\text{exploration}}^{i} 
-            = \frac{\mathcal{B}_{i} - \mu}{\sigma},
-            \text{where }
+            = \max \left( 0,\,
+              \frac{\mathcal{B}_{i} - \mu}{\sigma} \right),
+            \text{where \ }
             \mu=\frac{1}{G}\sum_{j=1}^G \mathcal{B}_j,
             \ 
             \sigma=\sqrt{\frac{1}{G}\sum_{j=1}^G (\mathcal{B}_j-\mu)^2}.
